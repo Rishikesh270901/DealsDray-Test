@@ -1,0 +1,157 @@
+<!-- employee-list.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+            line-height: 1.6;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        th {
+            background-color: #007bff;
+            color: #fff;
+            text-transform: uppercase;
+        }
+    
+        tr {
+            background-color: #fff;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    
+        .action-buttons button {
+            margin: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+    
+        .action-buttons button.delete {
+            color: #dc3545;
+        }
+    
+        .action-buttons button.delete:hover {
+            color: #c82333;
+        }
+    
+        .action-buttons button.update {
+            color: #007bff;
+        }
+    
+        .action-buttons button.update:hover {
+            color: #0069d9;
+        }
+    
+        .employee-image {
+            max-width: 80px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav style="background-color: #007bff; padding: 10px 20px; color: #fff; display: flex; justify-content: space-between; align-items: center;">
+        <div style="flex: 1;">
+            <a href="/" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Home</a>
+            <a href="/api/v1/employees/employee-list" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Employee List</a>
+        </div>
+        <div>
+            <% if (isLoggedIn || isAdmin) { %>
+                <a href="/api/v1/employees/logout" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Logout</a>
+            <% } else { %>
+                <a href="/api/v1/employees/login" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Login</a>
+                <a href="/api/v1/employees/register" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Register</a>
+            <% } %>
+        </div>
+    </nav>
+    <h2>Employee List</h2>
+    <button style="background-color: blue; border: blue; border-radius: 5px solid blue;"><a style="text-decoration: none; background-color: blue; color: #ddd;" href="/api/v1/employees/register">Create Employee</a></button>
+    <div style="margin-top: 20px; margin-bottom: 20px;">
+        <form id="searchForm">
+            <input type="text" id="searchInput" name="search" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Unique ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile No</th>
+                <th>Designation</th>
+                <th>Gender</th>
+                <th>Courses</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% employees.forEach((employee, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><img src="<%= employee.image.url %>" alt="Employee" class="employee-image"></td>
+                    <td><%= employee.fullName %></td>
+                    <td><%= employee.email %></td>
+                    <td><%= employee.mobileNumber %></td>
+                    <td><%= employee.designation %></td>
+                    <td><%= employee.gender %></td>
+                    <td>
+                        <% employee.courses.forEach((course, courseIndex) => { %>
+                            <%= course %>
+                            <% if (courseIndex < employee.courses.length - 1) { %>, <% } %>
+                        <% }); %>
+                    </td>
+                    <% if (isAdmin){ %>
+                        <td class="action-buttons">
+                            <form action="/api/v1/employees/delete/<%= employee._id %>?_method=DELETE" method="post">
+                                <button class="delete">
+                                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                </button>
+                              </form>
+                                <a  href="/api/v1/employees/update/<%= employee._id %>">
+                                    <i class="fas fa-edit"></i> 
+                                </a>
+                        </td>
+                    <% } %>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+</body>
+</html>

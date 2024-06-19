@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+</head>
+<body>
+    <nav style="background-color: #007bff; padding: 10px 20px; color: #fff; display: flex; justify-content: space-between; align-items: center;">
+        <div style="flex: 1;">
+            <a href="/" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Home</a>
+            <a href="/api/v1/employees/employee-list" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Employee List</a>
+        </div>
+        <div>
+            <% if (isLoggedIn || isAdmin) { %>
+                <a href="/api/v1/employees/logout" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Logout</a>
+            <% } else { %>
+                <a href="/api/v1/employees/login" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Login</a>
+                <a href="/api/v1/employees/register" style="color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px; transition: opacity 0.3s ease;">Register</a>
+            <% } %>
+        </div>
+    </nav>
+
+    <div style="max-width: 1200px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <div style="padding: 20px;">
+            <h1 style="color: #333;">Welcome to the Employee Dashboard</h1>
+            <p style="line-height: 1.6;">This is the homepage for employees. You can view employee information, manage tasks, and more.</p>
+        </div>
+    </div>
+</body>
+</html>
