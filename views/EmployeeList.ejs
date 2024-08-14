@@ -99,7 +99,9 @@
         </div>
     </nav>
     <h2>Employee List</h2>
-    <button style="background-color: blue; border: blue; border-radius: 5px solid blue;"><a style="text-decoration: none; background-color: blue; color: #ddd;" href="/api/v1/employees/register">Create Employee</a></button>
+    <% if (isAdmin){ %>
+        <button style="background-color: blue; border: blue; border-radius: 5px solid blue;"><a style="text-decoration: none; background-color: blue; color: #ddd;" href="/api/v1/employees/register">Create Employee</a></button>
+    <% } %>
     <div style="margin-top: 20px; margin-bottom: 20px;">
         <form id="searchForm" action="/api/v1/employees/search" method="get">
             <input type="text" id="searchInput" name="search" placeholder="Search...">
